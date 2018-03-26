@@ -107,7 +107,6 @@ bool AVLTree<Type>::remove(Node *&root)
             rightLeftRotation(tmp->key);
         else if(balance < -1 and getBalance(tmp->right) <= 0)
             leftRotation(tmp->key);
-
     }
     else
     {
@@ -233,7 +232,7 @@ typename AVLTree<Type>::Node *AVLTree<Type>::minAfter(Node *root)
         }
         return tmp;
     }
-    //    return NULL;
+    return NULL;
 }
 
 template <typename Type>
@@ -248,7 +247,7 @@ typename AVLTree<Type>::Node *AVLTree<Type>::maxBefore(Node *root)
         }
         return tmp;
     }
-    //    return NULL;
+    return NULL;
 }
 
 template class AVLTree<int>;
