@@ -16,9 +16,7 @@ bool AVLTree<Type>::insert(Type key)
 {
     if(!mRoot)
     {
-        mRoot         = new Node(key);
-        mRoot->key    = key;
-        mRoot->parent = mRoot->left = mRoot->right = NULL;
+        mRoot = new Node(key);
         return true;
     }
     else
@@ -81,22 +79,7 @@ bool AVLTree<Type>::remove(Node *&root)
 {
     if(!root)
         return false;
-    if(isExternal(root))
-    {
-        if(root != mRoot)
-        {
-            if(root == root->parent->left)
-                root->parent->left = NULL;
-            else
-                root->parent->right = NULL;
-        }
-
-        delete root;
-        root = NULL;
-
-        return true;
-    }
-    else
+    else if(!isExternal(root))
     {
         Node *tmp = minAfter(root);
         if(!tmp)
@@ -104,6 +87,34 @@ bool AVLTree<Type>::remove(Node *&root)
         root->key = tmp->key;
         return remove(tmp);
     }
+    else if(isExternal(root) and root != mRoot)
+    {
+        Node *tmp = root->parent;
+        if(root == root->parent->left)
+            root->parent->left = NULL;
+        else
+            root->parent->right = NULL;
+
+        delete root;
+
+        int balance = getBalance(tmp);
+
+        if(balance > 1 and getBalance(tmp->left) >= 0)
+            rightRotation(tmp->key);
+        else if(balance > 1 and getBalance(tmp->left) < 0)
+            leftRightRotation(tmp->key);
+        else if(balance < -1 and getBalance(tmp->right) > 0)
+            rightLeftRotation(tmp->key);
+        else if(balance < -1 and getBalance(tmp->right) <= 0)
+            leftRotation(tmp->key);
+
+    }
+    else
+    {
+        delete mRoot;
+        mRoot = NULL;
+    }
+    return true;
 }
 
 template <typename Type>

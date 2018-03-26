@@ -11,7 +11,12 @@ public:
     AVLTree() : mRoot(NULL) {}
     ~AVLTree()
     {
-        while(mRoot) remove(mRoot);
+        while(mRoot)
+        {
+            std::cout << "-----------------------" << std::endl;
+            display();
+            remove(mRoot);
+        }
     }
     bool insert(Type key);
     bool remove(Type key) { return remove(find(key, mRoot)); }
@@ -22,11 +27,6 @@ public:
     void preOrderWalk() { preOrderWalk(mRoot); }
     void postOrderWalk() { postOrderWalk(mRoot); }
     void display() { display(mRoot, 3); }
-    void leftRotation(Type key) { leftRotation(find(key, mRoot)); }
-    void rightRotation(Type key) { rightRotation(find(key, mRoot)); }
-    void leftRightRotation(Type key) { leftRightRotation(find(key, mRoot)); }
-    void rightLeftRotation(Type key) { rightLeftRotation(find(key, mRoot)); }
-    int getBalance() { return getBalance(mRoot); }
 
 private:
     struct Node
@@ -61,6 +61,10 @@ private:
     void rightRotation(Node *&root);
     void leftRightRotation(Node *&root);
     void rightLeftRotation(Node *&root);
+    void leftRotation(Type key) { leftRotation(find(key, mRoot)); }
+    void rightRotation(Type key) { rightRotation(find(key, mRoot)); }
+    void leftRightRotation(Type key) { leftRightRotation(find(key, mRoot)); }
+    void rightLeftRotation(Type key) { rightLeftRotation(find(key, mRoot)); }
 };
 
 #endif // AVLTREE_H
