@@ -3,14 +3,6 @@
 #include <iomanip>
 #include <iostream>
 
-// template <typename Type>
-// typename AVLTree<Type>::Node *&AVLTree<Type>::newNode(Type key, Node *&root, Node *&parent)
-//{
-//    root->key    = key;
-//    root->parent = parent;
-//    tmp->left = tmp->right = NULL;
-//}
-
 template <typename Type>
 bool AVLTree<Type>::insert(Type key)
 {
@@ -131,6 +123,69 @@ typename AVLTree<Type>::Node *&AVLTree<Type>::find(Type key, Node *&root)
 }
 
 template <typename Type>
+void AVLTree<Type>::inOrderWalkDebug(Node *root)
+{
+    if(root)
+    {
+        if(root->left)
+            std::cout << "inOrderWalk: going to -> " << root->left->key << std::endl;
+        else
+            std::cout << "inOrderWalk: left branch of \"" << root->key << "\" is NULL" << std::endl;
+        inOrderWalkDebug(root->left);
+        std::cout << "inOrderWalk: visiting -> ";
+        visit(root);
+        std::cout << std::endl;
+        if(root->right)
+            std::cout << "inOrderWalk: going to -> " << root->right->key << std::endl;
+        else
+            std::cout << "inOrderWalk: right branch of \"" << root->key << "\" is NULL" << std::endl;
+        inOrderWalkDebug(root->right);
+    }
+}
+
+template <typename Type>
+void AVLTree<Type>::preOrderWalkDebug(Node *root)
+{
+    if(root)
+    {
+        std::cout << "preOrderWalk: visiting -> ";
+        visit(root);
+        std::cout << std::endl;
+        if(root->left)
+            std::cout << "preOrderWalk: going to -> " << root->left->key << std::endl;
+        else
+            std::cout << "preOrderWalk: left branch of \"" << root->key << "\" is NULL" << std::endl;
+        preOrderWalkDebug(root->left);
+        if(root->right)
+            std::cout << "preOrderWalk: going to -> " << root->right->key << std::endl;
+        else
+            std::cout << "preOrderWalk: right branch of \"" << root->key << "\" is NULL" << std::endl;
+        preOrderWalkDebug(root->right);
+    }
+}
+
+template <typename Type>
+void AVLTree<Type>::postOrderWalkDebug(Node *root)
+{
+    if(root)
+    {
+        if(root->left)
+            std::cout << "postOrderWalk: going to -> " << root->left->key << std::endl;
+        else
+            std::cout << "postOrderWalk: left branch of \"" << root->key << "\" is NULL" << std::endl;
+        postOrderWalkDebug(root->left);
+        if(root->right)
+            std::cout << "postOrderWalk: going to -> " << root->right->key << std::endl;
+        else
+            std::cout << "postOrderWalk: right branch of \"" << root->key << "\" is NULL" << std::endl;
+        postOrderWalkDebug(root->right);
+        std::cout << "postOrderWalk: visiting -> ";
+        visit(root);
+        std::cout << std::endl;
+    }
+}
+
+template <typename Type>
 void AVLTree<Type>::inOrderWalk(Node *root)
 {
     if(root)
@@ -160,19 +215,6 @@ void AVLTree<Type>::postOrderWalk(Node *root)
         postOrderWalk(root->left);
         postOrderWalk(root->right);
         visit(root);
-    }
-}
-
-template <typename Type>
-void AVLTree<Type>::display(Node *root, int indent)
-{
-    if(root)
-    {
-        display(root->left, indent + 4);
-        if(indent > 0)
-            std::cout << std::setw(indent) << " ";
-        std::cout << root->key << std::endl;
-        display(root->right, indent + 4);
     }
 }
 
