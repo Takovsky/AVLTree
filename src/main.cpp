@@ -35,7 +35,10 @@ int main()
     std::cout << std::endl;
     tree->postOrderWalk();
     std::cout << std::endl;
-    tree->root();
+    std::cout << "size: " << tree->size() << std::endl;
+    std::cout << "leaves: " << tree->leaves() << std::endl;
+    std::cout << "root: " << tree->root() << std::endl;
+    tree->display();
     delete tree;
     return 0;
 }

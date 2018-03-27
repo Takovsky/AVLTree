@@ -14,8 +14,10 @@ public:
         while(mRoot) remove(mRoot);
     }
     bool insert(Type key);
-    bool remove(Type key) { return remove(find(key, mRoot)); }
+    Type remove(Type key) { return remove(find(key, mRoot)); }
     bool isEmpty() const { return mRoot; }
+    int size() { return size(mRoot); }
+    int leaves() { return leaves(mRoot); }
     int height() { return height(mRoot); }
     int depthOf(Type key) { return depthOf(find(key, mRoot)); }
     void inOrderWalkDebug() { inOrderWalkDebug(mRoot); }
@@ -24,12 +26,11 @@ public:
     void inOrderWalk() { inOrderWalk(mRoot); }
     void preOrderWalk() { preOrderWalk(mRoot); }
     void postOrderWalk() { postOrderWalk(mRoot); }
-    void root()
+    void display() { return display(mRoot, 3); }
+    Type root() const
     {
-        if(!mRoot)
-            std::cout << "Tree is empty" << std::endl;
-        else
-            std::cout << "Root of Tree is: " << mRoot->key << std::endl;
+        if(mRoot)
+            return mRoot->key;
     }
 
 private:
@@ -45,10 +46,13 @@ private:
         }
     };
     Node *mRoot;
+    void display(Node *root, int indent);
     bool isExternal(Node *root) { return !(root->left or root->right); }
+    int size(Node *root);
+    int leaves(Node *root);
     int getBalance(Node *root);
     bool insert(Type key, Node *&root);
-    bool remove(Node *&root);
+    Type remove(Node *&root);
     Node *&find(Type key, Node *&root);
     Node *minAfter(Node *root);
     Node *maxBefore(Node *root);

@@ -67,11 +67,9 @@ int AVLTree<Type>::depthOf(Node *root)
 }
 
 template <typename Type>
-bool AVLTree<Type>::remove(Node *&root)
+Type AVLTree<Type>::remove(Node *&root)
 {
-    if(!root)
-        return false;
-    else if(!isExternal(root))
+    if(root and !isExternal(root))
     {
         Node *tmp = minAfter(root);
         if(!tmp)
@@ -99,13 +97,16 @@ bool AVLTree<Type>::remove(Node *&root)
             rightLeftRotation(tmp->parent->key);
         else if(balance < -1 and getBalance(tmp->parent->right) <= 0)
             leftRotation(tmp->parent->key);
+
+        return tmp->key;
     }
     else
     {
+        int key = mRoot->key;
         delete mRoot;
         mRoot = NULL;
+        return key;
     }
-    return true;
 }
 
 template <typename Type>
@@ -290,6 +291,37 @@ typename AVLTree<Type>::Node *AVLTree<Type>::maxBefore(Node *root)
         return tmp;
     }
     return NULL;
+}
+
+template <typename Type>
+int AVLTree<Type>::size(Node *root)
+{
+    if(!root)
+        return 0;
+    return size(root->left) + size(root->right) + 1;
+}
+
+template <typename Type>
+int AVLTree<Type>::leaves(Node *root)
+{
+    if(!root)
+        return 0;
+    if(isExternal(root))
+        return 1;
+    return leaves(root->left) + leaves(root->right);
+}
+
+template <typename Type>
+void AVLTree<Type>::display(Node *root, int indent)
+{
+    if(root)
+    {
+        display(root->left, indent + 4);
+        if(indent > 0)
+            std::cout << std::setw(indent) << " ";
+        std::cout << root->key << std::endl;
+        display(root->right, indent + 4);
+    }
 }
 
 template class AVLTree<int>;
