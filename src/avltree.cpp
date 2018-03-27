@@ -80,6 +80,7 @@ Type AVLTree<Type>::remove(Node *&root)
     else if(isExternal(root) and root != mRoot)
     {
         Node *tmp = root;
+        Type key = root->key;
         if(root == root->parent->left)
             root->parent->left = NULL;
         else
@@ -98,7 +99,7 @@ Type AVLTree<Type>::remove(Node *&root)
         else if(balance < -1 and getBalance(tmp->parent->right) <= 0)
             leftRotation(tmp->parent->key);
 
-        return tmp->key;
+        return key;
     }
     else
     {
