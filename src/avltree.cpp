@@ -79,25 +79,24 @@ Type AVLTree<Type>::remove(Node *&root)
     }
     else if(isExternal(root) and root != mRoot)
     {
-        Node *tmp = root;
-        Type key = root->key;
+        Node *tmp   = root;
+        Type key    = root->key;
+        int balance = getBalance(root);
         if(root == root->parent->left)
             root->parent->left = NULL;
         else
             root->parent->right = NULL;
 
-        int balance = getBalance(tmp);
+        delete tmp;
 
-        delete root;
-
-        if(balance > 1 and getBalance(tmp->parent->left) >= 0)
-            rightRotation(tmp->parent->key);
-        else if(balance > 1 and getBalance(tmp->parent->left) < 0)
-            leftRightRotation(tmp->parent->key);
-        else if(balance < -1 and getBalance(tmp->parent->right) > 0)
-            rightLeftRotation(tmp->parent->key);
-        else if(balance < -1 and getBalance(tmp->parent->right) <= 0)
-            leftRotation(tmp->parent->key);
+        if(balance > 1 and getBalance(root->left) >= 0)
+            rightRotation(root->parent->left);
+        else if(balance > 1 and getBalance(root->left) < 0)
+            leftRightRotation(root->parent->left);
+        else if(balance < -1 and getBalance(root->right) > 0)
+            rightLeftRotation(root->parent->right);
+        else if(balance < -1 and getBalance(root->right) <= 0)
+            leftRotation(root->parent->right);
 
         return key;
     }
